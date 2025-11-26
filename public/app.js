@@ -14,6 +14,7 @@ function addMessage(role, content) {
 
 formEl.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const text = inputEl.value.trim();
   if (!text) return;
 
@@ -23,21 +24,18 @@ formEl.addEventListener('submit', async (e) => {
   inputEl.disabled = true;
 
   try {
-    const res = await fetch(
-      'https://cf-ai-assistant.sapoya26.workers.dev/api/chat',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages })
-      }
-    );
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages })
+    });
 
     const data = await res.json();
-    const reply = data.response || data.error || '(no reply)';
+    const reply = data.reply || data.error || '(no reply)';
     messages.push({ role: 'assistant', content: reply });
     addMessage('assistant', reply);
 
-  } catch (error) {
+  } catch {
     addMessage('assistant', 'Error talking to AI.');
   } finally {
     inputEl.disabled = false;

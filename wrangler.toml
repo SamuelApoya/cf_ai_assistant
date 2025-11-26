@@ -1,8 +1,10 @@
-name = "cf-ai-assistant"
+name = "cloud-help-ai"
 main = "src/worker.js"
+compatibility_date = "2024-01-01"
 
-[site]
-bucket = "./public"
-
-[[ai]]
+[ai]
 binding = "AI"
+
+[assets]
+binding = "ASSETS"
+directory = "./public"
