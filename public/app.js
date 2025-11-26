@@ -121,4 +121,4 @@ formEl.addEventListener('submit', async (e) => {
 });
 
 // Welcome message
-addMessage('assistant', 'Hello! I\'m CloudHelpAI, your intelligent assistant powered by Cloudflare Workers AI. Ask me anything!');
+addMessage('assistant', 'Hello! I\'m CloudHelpAI, Ask me anything!');
