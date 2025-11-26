@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>cf_ai_assistant</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1>cf_ai_assistant</h1>
+<p>Minimal Cloudflare Workers AI chat with in-browser memory.</p>
+
+
+<div id="chat"></div>
+
+
+<form id="chat-form">
+<input id="input" placeholder="Ask something..." />
+<button>Send</button>
+</form>
+
+
+<script>
+let messages = [];
+
+
+const chat = document.getElementById('chat');
+const form = document.getElementById('chat-form');
+const input = document.getElementById('input');
+
+
+form.onsubmit = async (e) => {
+e.preventDefault();
+
+
+const userMessage = input.value;
+messages.push({ role: "user", content: userMessage });
+
+
+chat.innerHTML += `<div><b>You:</b> ${userMessage}</div>`;
+input.value = '';
+
+
+const res = await fetch('/', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ messages })
+});
+
+
+const data = await res.json();
+const reply = data.response;
+
+
+messages.push({ role: "assistant", content: reply });
+chat.innerHTML += `<div><b>AI:</b> ${reply}</div>`;
+};
+</script>
+</body>
+</html>
