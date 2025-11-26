@@ -2,22 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CloudHelpAI</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="app">
     <div class="sidebar">
-      <h1>CloudHelpAI</h1>
-      <p>AI assistant powered by Cloudflare Workers</p>
-      <small>Live Edge AI Demo</small>
+      <div>
+        <h1>CloudHelpAI</h1>
+        <p>AI assistant powered by Cloudflare Workers</p>
+        <small>Live Edge AI Demo</small>
+      </div>
     </div>
 
     <div class="main">
       <div id="chat" class="chat"></div>
 
       <form id="form" class="input-area">
-        <input id="input" type="text" placeholder="Ask anything..." required />
+        <input id="input" type="text" placeholder="Ask anything..." required autocomplete="off" />
         <button type="submit">Send</button>
       </form>
     </div>

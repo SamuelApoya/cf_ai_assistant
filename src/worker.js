@@ -24,7 +24,8 @@ export default {
             messages: [
               { role: "system", content: SYSTEM_PROMPT },
               ...messages
-            ]
+            ],
+            max_tokens: 2048
           }
         );
 
