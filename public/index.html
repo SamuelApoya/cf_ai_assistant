@@ -1,58 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>cf_ai_assistant</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <title>cf_ai_assistant</title>
+  <!-- NOTE: your file is "styles.css", not "style.css" -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<h1>cf_ai_assistant</h1>
-<p>Minimal Cloudflare Workers AI chat with in-browser memory.</p>
+  <h1>cf_ai_assistant</h1>
+  <p>Minimal Cloudflare Workers AI chat with in-browser memory.</p>
 
+  <div id="chat"></div>
 
-<div id="chat"></div>
+  <form id="chat-form">
+    <input id="input" placeholder="Ask something..." />
+    <button type="submit">Send</button>
+  </form>
 
+  <script>
+    // Simple in-browser history (optional – useful for future extensions)
+    const messages = [];
 
-<form id="chat-form">
-<input id="input" placeholder="Ask something..." />
-<button>Send</button>
-</form>
+    const chatEl  = document.getElementById('chat');
+    const formEl  = document.getElementById('chat-form');
+    const inputEl = document.getElementById('input');
 
+    // Your Worker endpoint
+    const WORKER_URL = 'https://proud-star-4bc2.sapoya26.workers.dev';
 
-<script>
-let messages = [];
+    function addMessage(role, content) {
+      const line = document.createElement('div');
+      line.innerHTML = `<b>${role}:</b> ${content}`;
+      chatEl.appendChild(line);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
 
+    formEl.onsubmit = async (e) => {
+      e.preventDefault();
 
-const chat = document.getElementById('chat');
-const form = document.getElementById('chat-form');
-const input = document.getElementById('input');
+      const userMessage = inputEl.value.trim();
+      if (!userMessage) return;
 
+      // Show user message
+      messages.push({ role: 'user', content: userMessage });
+      addMessage('You', userMessage);
 
-form.onsubmit = async (e) => {
-e.preventDefault();
+      inputEl.value = '';
+      inputEl.disabled = true;
 
+      try {
+        const res = await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          // Worker expects { "prompt": "..." }
+          body: JSON.stringify({ prompt: userMessage }),
+        });
 
-const userMessage = input.value;
-messages.push({ role: "user", content: userMessage });
+        const data = await res.json();
 
+        // Your Worker currently returns { response: "..." , usage: {...} }
+        let reply = data.response;
 
-chat.innerHTML += `<div><b>You:</b> ${userMessage}</div>`;
-input.value = '';
+        // In case response is an object (different model format), fall back
+        if (typeof reply === 'object') {
+          reply = JSON.stringify(reply);
+        }
+        if (!reply) {
+          reply = data.error || '(no reply from AI)';
+        }
 
-
-const res = await fetch('/', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ messages })
-});
-
-
-const data = await res.json();
-const reply = data.response;
-
-
-messages.push({ role: "assistant", content: reply });
-chat.innerHTML += `<div><b>AI:</b> ${reply}</div>`;
-};
-</script>
+        messages.push({ role: 'assistant', content: reply });
+        addMessage('AI', reply);
+      } catch (err) {
+        addMessage('AI', 'Error talking to AI.');
+        console.error(err);
+      } finally {
+        inputEl.disabled = false;
+        inputEl.focus();
+      }
+    };
+  </script>
 </body>
 </html>
