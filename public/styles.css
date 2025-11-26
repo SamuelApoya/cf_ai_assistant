@@ -1,7 +1,12 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: radial-gradient(circle at top, #1e2a44, #070b15);
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1e2a44, #050b1a);
   color: white;
 }
 
@@ -11,9 +16,9 @@ body {
 }
 
 .sidebar {
-  width: 280px;
-  background: rgba(15, 25, 45, 0.9);
-  padding: 25px;
+  width: 260px;
+  background: linear-gradient(180deg, #081629, #020716);
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -22,11 +27,16 @@ body {
 .sidebar h1 {
   margin: 0;
   font-size: 26px;
+  letter-spacing: 0.5px;
 }
 
 .sidebar p {
-  color: #aab4c8;
   font-size: 14px;
+  color: #9aa4b6;
+}
+
+.sidebar small {
+  color: #5f6d84;
 }
 
 .main {
@@ -38,54 +48,64 @@ body {
 
 .chat {
   flex: 1;
-  background: rgba(0,0,0,0.4);
-  border-radius: 14px;
-  padding: 20px;
+  background: linear-gradient(180deg, #030812, #01040b);
+  border-radius: 18px;
+  padding: 30px;
   overflow-y: auto;
-  margin-bottom: 20px;
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
 }
 
 .message {
   max-width: 70%;
-  margin-bottom: 12px;
-  padding: 10px 14px;
-  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border-radius: 16px;
   line-height: 1.4;
+  animation: fadeIn 0.3s ease;
 }
 
 .message.user {
-  background: #2563eb;
+  background: #2965f1;
+  align-self: flex-end;
   margin-left: auto;
 }
 
 .message.assistant {
-  background: #1f2937;
+  background: #1b273a;
+  margin-right: auto;
 }
 
-form {
+.input-area {
   display: flex;
+  margin-top: 20px;
   gap: 10px;
 }
 
-input {
+.input-area input {
   flex: 1;
-  padding: 14px;
-  border-radius: 10px;
+  border-radius: 14px;
   border: none;
+  padding: 14px 16px;
+  font-size: 16px;
   outline: none;
-  font-size: 15px;
 }
 
-button {
-  background: #2563eb;
-  color: white;
+.input-area button {
+  background: #2965f1;
   border: none;
-  padding: 14px 20px;
-  border-radius: 10px;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 14px;
   cursor: pointer;
-  font-weight: 600;
+  font-size: 15px;
+  transition: background 0.2s ease;
 }
 
-button:hover {
-  background: #1d4ed8;
+.input-area button:hover {
+  background: #1c4fd6;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(5px);}
+  to {opacity: 1; transform: translateY(0);}
 }
