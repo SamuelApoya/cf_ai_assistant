@@ -2,22 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CloudHelp AI</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>CloudHelpAI</title>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>CloudHelp AI</h1>
-    <p class="subtitle">Smart assistant powered by Cloudflare Workers AI</p>
+  <div class="app">
+    <div class="sidebar">
+      <h1>CloudHelpAI</h1>
+      <p>AI assistant powered by Cloudflare Workers</p>
+      <small>Live Edge AI Demo</small>
+    </div>
 
-    <div id="chat"></div>
+    <div class="main">
+      <div class="chat" id="chat"></div>
 
-    <form id="chat-form">
-      <input id="input" type="text" placeholder="Ask something..." required />
-      <button type="submit">Send</button>
-    </form>
+      <form id="form">
+        <input id="input" type="text" placeholder="Ask anything..." required />
+        <button type="submit">Send</button>
+      </form>
+    </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>

@@ -1,37 +1,46 @@
-const chat = document.getElementById("chat");
-const form = document.getElementById("chat-form");
-const input = document.getElementById("input");
+const chatEl = document.getElementById('chat');
+const formEl = document.getElementById('form');
+const inputEl = document.getElementById('input');
 
 const messages = [];
 
-function appendMessage(role, text) {
-  const div = document.createElement("div");
-  div.className = `message ${role}`;
-  div.innerHTML = `<span>${text}</span>`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+function addMessage(role, content) {
+  const div = document.createElement('div');
+  div.className = 'message ' + role;
+  div.textContent = content;
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
 }
 
-form.addEventListener("submit", async (e) => {
+formEl.addEventListener('submit', async (e) => {
   e.preventDefault();
-
-  const text = input.value.trim();
+  const text = inputEl.value.trim();
   if (!text) return;
 
-  messages.push({ role: "user", content: text });
-  appendMessage("user", text);
+  messages.push({ role: 'user', content: text });
+  addMessage('user', text);
+  inputEl.value = '';
+  inputEl.disabled = true;
 
-  input.value = "";
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages })
+    });
 
-  const res = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages })
-  });
+    const data = await res.json();
+    const reply =
+      data.response?.response ||
+      data.reply ||
+      '(no response from AI)';
 
-  const data = await res.json();
-  const reply = data.reply || "(No response)";
-
-  messages.push({ role: "assistant", content: reply });
-  appendMessage("ai", reply);
+    messages.push({ role: 'assistant', content: reply });
+    addMessage('assistant', reply);
+  } catch (err) {
+    addMessage('assistant', 'Error talking to AI.');
+  } finally {
+    inputEl.disabled = false;
+    inputEl.focus();
+  }
 });

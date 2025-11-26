@@ -1,31 +1,88 @@
-# cf_ai_assistant
+CloudHelpAI
 
-Minimal Cloudflare Workers AI chat app for the Cloudflare Software Engineering Internship AI optional assignment.
+CloudHelpAI is a deployed AI-powered web assistant built using Cloudflare Workers AI and Cloudflare Pages. It provides real-time responses using the LLaMA 3.2 instruction-tuned model and demonstrates how to integrate Cloudflare’s edge AI capabilities into a clean, presentable web application.
 
-## What it does
+The app allows users to send natural language prompts through a browser interface and receive intelligent responses generated directly at the edge using Cloudflare’s AI infrastructure.
 
-- Serves a tiny web page with a single-input chat box.
-- Sends your messages (plus previous conversation history) to a Workers AI LLM.
-- Shows the AI's reply in the browser.
-- Keeps conversation **memory** in the browser and sends it on each request so the model has context.
+What the App Does
 
-This satisfies the assignment requirements:
+CloudHelpAI enables users to:
 
-- **LLM:** Cloudflare Workers AI (`@cf/meta/llama-3-8b-instruct`)
-- **Workflow / coordination:** Cloudflare Worker handling the chat API
-- **User input:** Chat interface in a simple HTML page
-- **Memory / state:** In-browser conversation history passed to the LLM on each request
+Type a question or prompt in a web chat interface
 
-## Tech
+Send it to a Cloudflare Worker API endpoint
 
-- Cloudflare Workers
-- Workers AI
-- Plain HTML + JavaScript (no additional frameworks)
-- ES module Worker with small helper modules (`constants.js`, `ui.js`)
+Have the Worker communicate with the LLaMA 3.2 AI model
 
-## Setup
+Display the AI-generated response instantly in the browser
 
-1. Install Wrangler (if you do not already have it):
+This project demonstrates real-time AI inference hosted globally at the edge without relying on traditional server infrastructure.
 
-   ```bash
-   npm install -D wrangler
+Live Deployment
+
+Frontend (Cloudflare Pages):
+https://cloud-help-ai.pages.dev
+
+Backend API (Cloudflare Worker):
+https://cf-ai-assistant.sapoya26.workers.dev
+
+GitHub Repository
+
+https://github.com/SamuelApoya/cf_ai_assistant
+
+Tech Stack
+
+Cloudflare Workers AI
+Cloudflare Pages
+JavaScript
+HTML
+CSS
+GitHub
+
+How to Install Locally
+
+Clone the repository:
+
+git clone https://github.com/SamuelApoya/cf_ai_assistant.git
+cd cf_ai_assistant
+
+
+Install dependencies:
+
+npm install
+
+How to Run Locally
+
+Start the Worker development server:
+
+npx wrangler dev
+
+
+Then open in your browser:
+
+http://localhost:8787
+
+How to Test the Deployed App
+
+Open the live site in any browser:
+
+https://cloud-help-ai.pages.dev
+
+
+Type any question into the input field and press Send to receive AI responses.
+
+How Deployment Works
+
+Frontend:
+
+Deployed via Cloudflare Pages
+
+Served globally from Cloudflare’s CDN
+
+Backend:
+
+Deployed as a Cloudflare Worker
+
+Handles AI model inference using Workers AI
+
+The system is fully accessible from any device with internet access.

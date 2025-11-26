@@ -1,64 +1,65 @@
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: #f8fafc;
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: radial-gradient(circle at top, #1e2a44, #070b15);
+  color: white;
+}
+
+.app {
   display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  background: rgba(15, 25, 45, 0.9);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h1 {
   margin: 0;
+  font-size: 26px;
 }
 
-.container {
-  background: rgba(15, 23, 42, 0.95);
-  padding: 30px;
-  border-radius: 16px;
-  width: 420px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+.sidebar p {
+  color: #aab4c8;
+  font-size: 14px;
 }
 
-h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  text-align: center;
+.main {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
-.subtitle {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #94a3b8;
-  margin-bottom: 15px;
-}
-
-#chat {
-  background: #020617;
-  border-radius: 10px;
-  padding: 15px;
-  height: 300px;
+.chat {
+  flex: 1;
+  background: rgba(0,0,0,0.4);
+  border-radius: 14px;
+  padding: 20px;
   overflow-y: auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .message {
-  margin-bottom: 10px;
+  max-width: 70%;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  line-height: 1.4;
 }
 
-.user {
-  text-align: right;
-}
-
-.user span {
+.message.user {
   background: #2563eb;
-  padding: 8px 12px;
-  border-radius: 12px;
-  display: inline-block;
+  margin-left: auto;
 }
 
-.ai span {
-  background: #334155;
-  padding: 8px 12px;
-  border-radius: 12px;
-  display: inline-block;
+.message.assistant {
+  background: #1f2937;
 }
 
 form {
@@ -68,22 +69,23 @@ form {
 
 input {
   flex: 1;
+  padding: 14px;
   border-radius: 10px;
   border: none;
-  padding: 10px;
-  font-size: 0.95rem;
+  outline: none;
+  font-size: 15px;
 }
 
 button {
-  background: #3b82f6;
+  background: #2563eb;
   color: white;
   border: none;
+  padding: 14px 20px;
   border-radius: 10px;
-  padding: 10px 15px;
   cursor: pointer;
-  transition: 0.2s;
+  font-weight: 600;
 }
 
 button:hover {
-  background: #2563eb;
+  background: #1d4ed8;
 }
