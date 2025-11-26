@@ -27,6 +27,7 @@ body {
 .sidebar h1 {
   margin: 0;
   font-size: 26px;
+  letter-spacing: 0.5px;
 }
 
 .sidebar p {
@@ -51,7 +52,9 @@ body {
   border-radius: 18px;
   padding: 30px;
   overflow-y: auto;
-  box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
 }
 
 .message {
@@ -60,6 +63,8 @@ body {
   margin-bottom: 14px;
   border-radius: 16px;
   line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+  white-space: pre-wrap; /* preserve line breaks from the model */
 }
 
 .message.user {
@@ -85,6 +90,7 @@ body {
   border: none;
   padding: 14px 16px;
   font-size: 16px;
+  outline: none;
 }
 
 .input-area button {
@@ -95,4 +101,20 @@ body {
   border-radius: 14px;
   cursor: pointer;
   font-size: 15px;
+  transition: background 0.2s ease;
+}
+
+.input-area button:hover {
+  background: #1c4fd6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
