@@ -2,14 +2,18 @@ const SYSTEM_PROMPT = "You are a helpful Cloudflare AI assistant.";
 
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
+    const headers = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "POST,OPTIONS"
+    };
 
-    // Serve static assets
-    if (request.method === "GET") {
-      return env.ASSETS.fetch(request);
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers });
     }
 
-    // AI endpoint
+    const url = new URL(request.url);
+
     if (url.pathname === "/api/chat") {
       try {
         const { messages } = await request.json();
@@ -26,12 +30,13 @@ export default {
 
         return new Response(
           JSON.stringify({ reply: result.response }),
-          { headers: { "Content-Type": "application/json" } }
+          { headers: { ...headers, "Content-Type": "application/json" } }
         );
+
       } catch (err) {
         return new Response(
           JSON.stringify({ error: err.message }),
-          { status: 500, headers: { "Content-Type": "application/json" } }
+          { status: 500, headers }
         );
       }
     }

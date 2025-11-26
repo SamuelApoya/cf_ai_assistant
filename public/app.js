@@ -2,6 +2,8 @@ const chatEl = document.getElementById('chat');
 const formEl = document.getElementById('form');
 const inputEl = document.getElementById('input');
 
+const API_URL = "https://cloud-help-ai.sapoya26.workers.dev/api/chat";
+
 const messages = [];
 
 function addMessage(role, content) {
@@ -24,19 +26,21 @@ formEl.addEventListener('submit', async (e) => {
   inputEl.disabled = true;
 
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ messages })
     });
 
     const data = await res.json();
-    const reply = data.reply || data.error || '(no reply)';
-    messages.push({ role: 'assistant', content: reply });
+    const reply = data.reply || '(no reply)';
     addMessage('assistant', reply);
 
-  } catch {
-    addMessage('assistant', 'Error talking to AI.');
+  } catch (err) {
+    console.error(err);
+    addMessage('assistant', 'AI connection failed.');
   } finally {
     inputEl.disabled = false;
     inputEl.focus();
