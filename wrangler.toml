@@ -1,8 +1,8 @@
 name = "cf-ai-assistant"
-main = "src/index.js"
-compatibility_date = "2024-10-01"
+main = "src/worker.js"
 
+[site]
+bucket = "./public"
 
-[ai]
+[[ai]]
 binding = "AI"
-remote = true

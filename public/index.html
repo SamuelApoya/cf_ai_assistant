@@ -2,83 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>cf_ai_assistant</title>
-  <!-- NOTE: your file is "styles.css", not "style.css" -->
+  <title>CloudHelp AI</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>cf_ai_assistant</h1>
-  <p>Minimal Cloudflare Workers AI chat with in-browser memory.</p>
+  <div class="container">
+    <h1>CloudHelp AI</h1>
+    <p class="subtitle">Smart assistant powered by Cloudflare Workers AI</p>
 
-  <div id="chat"></div>
+    <div id="chat"></div>
 
-  <form id="chat-form">
-    <input id="input" placeholder="Ask something..." />
-    <button type="submit">Send</button>
-  </form>
+    <form id="chat-form">
+      <input id="input" type="text" placeholder="Ask something..." required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
 
-  <script>
-    // Simple in-browser history (optional – useful for future extensions)
-    const messages = [];
-
-    const chatEl  = document.getElementById('chat');
-    const formEl  = document.getElementById('chat-form');
-    const inputEl = document.getElementById('input');
-
-    // Your Worker endpoint
-    const WORKER_URL = 'https://proud-star-4bc2.sapoya26.workers.dev';
-
-    function addMessage(role, content) {
-      const line = document.createElement('div');
-      line.innerHTML = `<b>${role}:</b> ${content}`;
-      chatEl.appendChild(line);
-      chatEl.scrollTop = chatEl.scrollHeight;
-    }
-
-    formEl.onsubmit = async (e) => {
-      e.preventDefault();
-
-      const userMessage = inputEl.value.trim();
-      if (!userMessage) return;
-
-      // Show user message
-      messages.push({ role: 'user', content: userMessage });
-      addMessage('You', userMessage);
-
-      inputEl.value = '';
-      inputEl.disabled = true;
-
-      try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          // Worker expects { "prompt": "..." }
-          body: JSON.stringify({ prompt: userMessage }),
-        });
-
-        const data = await res.json();
-
-        // Your Worker currently returns { response: "..." , usage: {...} }
-        let reply = data.response;
-
-        // In case response is an object (different model format), fall back
-        if (typeof reply === 'object') {
-          reply = JSON.stringify(reply);
-        }
-        if (!reply) {
-          reply = data.error || '(no reply from AI)';
-        }
-
-        messages.push({ role: 'assistant', content: reply });
-        addMessage('AI', reply);
-      } catch (err) {
-        addMessage('AI', 'Error talking to AI.');
-        console.error(err);
-      } finally {
-        inputEl.disabled = false;
-        inputEl.focus();
-      }
-    };
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
