@@ -13,19 +13,20 @@ You are knowledgeable, friendly, and concise in your responses. You provide help
 
 export default {
   async fetch(request, env) {
-    const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "POST,OPTIONS"
-    };
-
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers });
-    }
-
     const url = new URL(request.url);
 
+    // Handle API chat requests
     if (url.pathname === "/api/chat") {
+      const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "POST,OPTIONS"
+      };
+
+      if (request.method === "OPTIONS") {
+        return new Response(null, { headers });
+      }
+
       try {
         const { messages } = await request.json();
 
@@ -48,11 +49,11 @@ export default {
       } catch (err) {
         return new Response(
           JSON.stringify({ error: err.message }),
-          { status: 500, headers }
+          { status: 500, headers: { ...headers, "Content-Type": "application/json" } }
         );
       }
     }
-
-    return new Response("Not Found", { status: 404 });
+    // Serve static assets for other requests
+    return env.ASSETS.fetch(request);
   }
-};
+};git add src/worker.js
