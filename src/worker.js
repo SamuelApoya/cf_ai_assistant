@@ -53,7 +53,8 @@ export default {
         );
       }
     }
-    // Serve static assets for other requests
+
+    // Serve all other requests as static assets
     return env.ASSETS.fetch(request);
   }
-};git add src/worker.js
+};
