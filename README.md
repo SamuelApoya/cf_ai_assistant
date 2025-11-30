@@ -5,7 +5,7 @@ The app allows users to send natural language prompts through a browser interfac
 
 
 ## Live Deployment link
-https://cloud-help-ai-samuel.sapoya26.workers.dev/
+https://c2a8a4d5.cf-ai-assistant-samuel.pages.dev
 
 
 **GitHub Repository:**
